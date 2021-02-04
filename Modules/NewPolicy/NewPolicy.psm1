@@ -26,7 +26,7 @@ class NewPolicy
     [NewPolicy] Get()
     {
 
-        $FunctionResult = Get-Function1 -Status $this.Status
+        $FunctionResult = Get-Function1 -Property $this.Property
         $currentState = [NewPolicy]$FunctionResult
 
         return $currentState
@@ -39,7 +39,7 @@ class NewPolicy
 
     [bool] Test()
     {
-        $return = (Get-TargetResource -Property $this.Property).status
+        $return = $this.Get().status
 
         return $return
     }
