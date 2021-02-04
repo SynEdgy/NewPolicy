@@ -26,11 +26,11 @@ Import-Module -Name GuestConfiguration -MinimumVersion 3.1.3 -ErrorAction Stop -
 New-GuestConfigurationPackage -Name NewPolicy -Configuration ./MOF/NewPolicy.mof
 
 #if we're running as admin, we can test the package
-if ([Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+if (!$IsLinux -and [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
 {
     Test-GuestConfigurationPackage -Verbose -Path './NewPolicy/NewPolicy.zip'
 }
 else
 {
-    Write-Warning -Message "Testing the Package will fail if not running elevated. Skipping."
+    Write-Warning -Message "Testing the Package will fail on Linux or if not running elevated on Windows. Skipping."
 }
