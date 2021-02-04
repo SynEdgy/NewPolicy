@@ -5,10 +5,10 @@ Write-Warning -Message "Running on $($PSVersionTable.PSVersion)."
 import-Module -Name PSDesiredStateConfiguration -PassThru -ErrorAction Stop -Verbose:$false
 
 # Add working dir to PSModulePath if not present
-if ($env:PSModulePath.Split([System.io.path]::PathSeparator) -notcontains $PWD.Path)
+if ($env:PSModulePath.Split([System.io.path]::PathSeparator) -notcontains (Join-Path -Path $PWD.Path -ChildPath 'Modules'))
 {
     Write-Verbose -Message "Adding $PWD to PSModulePath."
-    $env:PSModulePath = $PWD.Path + [System.io.path]::PathSeparator + $env:PSModulePath
+    $env:PSModulePath =  (Join-Path -Path $PWD.Path -ChildPath 'Modules') + [System.io.path]::PathSeparator + $env:PSModulePath
 }
 
 # Remove the NewPolicy/unzippedPackage folder & content because Get-DscResource fails otherwise
