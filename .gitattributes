@@ -1,0 +1,4 @@
+* text=auto
+
+*.mof text eol=crlf
+*.sh text eol=lf
